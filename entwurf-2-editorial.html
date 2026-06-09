@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAPITAL1 — Schweizer Immobilien · Entwurf 2 Editorial</title>
+<style>
+  :root{
+    --black:#000;--anthracite:#1A1A1A;--blue:#83CFEC;--blue-dark:#1F8FBF;
+    --grey:#6B7280;--fog:#F5F8FA;--white:#fff;
+    --font:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    --ease:cubic-bezier(.19,1,.22,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);background:var(--white);color:var(--anthracite);font-weight:300;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--blue);color:#000}
+  a{color:var(--blue-dark);text-decoration:none}
+
+  .progress{position:fixed;top:0;left:0;height:2px;background:var(--blue-dark);z-index:300;width:0}
+
+  /* NAV */
+  header.nav{position:fixed;inset:0 0 auto 0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:26px 7vw;mix-blend-mode:normal;transition:.45s var(--ease)}
+  header.nav.scrolled{background:rgba(255,255,255,.85);backdrop-filter:blur(16px);padding:16px 7vw;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+  .logo{display:flex;align-items:center;gap:12px;font-size:20px;letter-spacing:.04em}
+  .logo .mark{width:32px;height:32px;flex:none}
+  .logo .mark svg{width:100%;height:100%;display:block}
+  .logo .one{color:var(--blue-dark);font-weight:600}
+  .logo small{display:block;font-size:7.5px;letter-spacing:.26em;color:var(--grey);font-weight:600;margin-top:2px}
+  nav ul{display:flex;gap:36px;list-style:none}
+  nav a{color:var(--anthracite);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;position:relative}
+  nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--blue-dark);transition:width .35s var(--ease)}
+  nav a:hover::after{width:100%}
+  .nav-cta{padding:11px 24px;border:1px solid var(--anthracite);color:var(--anthracite);font-size:13px;letter-spacing:.06em;transition:.3s}
+  .nav-cta:hover{background:var(--anthracite);color:#fff}
+  @media(max-width:880px){nav ul{display:none}}
+
+  /* HERO editorial */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1.3fr 1fr;align-items:center;padding:140px 7vw 80px;gap:60px;position:relative}
+  .hero::before{content:"01";position:absolute;right:7vw;top:18vh;font-size:18vw;font-weight:200;color:var(--fog);z-index:0;line-height:1;letter-spacing:-.04em}
+  .hero-text{position:relative;z-index:2}
+  .eyebrow{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--blue-dark);font-weight:600;margin-bottom:34px;display:flex;align-items:center;gap:16px}
+  .eyebrow::before{content:"";width:54px;height:1px;background:var(--blue-dark)}
+  h1{font-size:clamp(44px,6.4vw,92px);font-weight:200;line-height:1.02;letter-spacing:-.025em;color:var(--black)}
+  h1 em{font-style:normal;color:var(--blue-dark)}
+  .hero-text p{max-width:480px;margin-top:30px;font-size:18px;color:var(--grey)}
+  .hero-cta{display:flex;gap:16px;margin-top:42px;flex-wrap:wrap}
+  .btn{padding:16px 32px;font-size:15px;letter-spacing:.03em;cursor:pointer;transition:.35s var(--ease);display:inline-flex;align-items:center;gap:9px;border:1px solid transparent}
+  .btn-primary{background:var(--blue);color:#000;font-weight:500}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(131,207,236,.45)}
+  .btn-ghost{border-color:#000;color:#000}
+  .btn-ghost:hover{background:#000;color:#fff}
+  .hero-visual{position:relative;z-index:1;height:70vh;border-radius:4px;overflow:hidden;background:linear-gradient(160deg,#0c0c0c,#1d1d1d)}
+  .hero-visual .lines{position:absolute;inset:0}
+  .hero-visual .lines i{position:absolute;left:0;right:0;height:1px;background:rgba(131,207,236,.18)}
+  .hero-visual .tag{position:absolute;left:30px;bottom:30px;color:#fff;z-index:3}
+  .hero-visual .tag .big{font-size:54px;font-weight:200;color:var(--blue)}
+  .hero-visual .tag .sm{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px}
+  .hero-visual .frame{position:absolute;inset:24px;border:1px solid rgba(131,207,236,.25);z-index:2}
+  @media(max-width:880px){.hero{grid-template-columns:1fr}.hero-visual{height:46vh;margin-top:20px}.hero::before{display:none}}
+
+  /* MARQUEE */
+  .marquee{border-top:1px solid #eee;border-bottom:1px solid #eee;overflow:hidden;padding:24px 0;white-space:nowrap;background:var(--fog)}
+  .marquee div{display:inline-block;animation:scrollx 28s linear infinite}
+  .marquee span{font-size:26px;font-weight:200;color:var(--anthracite);margin:0 40px;letter-spacing:.02em}
+  .marquee b{color:var(--blue-dark)}
+  @keyframes scrollx{to{transform:translateX(-50%)}}
+
+  /* SECTION */
+  section{padding:150px 7vw;position:relative}
+  .sec-head{display:flex;gap:30px;align-items:baseline;margin-bottom:70px;flex-wrap:wrap}
+  .sec-num{font-size:13px;letter-spacing:.3em;color:var(--blue-dark);font-weight:600}
+  .sec-title{font-size:clamp(34px,4.6vw,62px);font-weight:200;line-height:1.04;letter-spacing:-.02em;max-width:14ch;color:var(--black)}
+  .sec-title b{font-weight:600}
+  .sec-intro{max-width:380px;margin-left:auto;color:var(--grey);font-size:17px}
+
+  .reveal{opacity:0;transform:translateY(36px);transition:all 1s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+  /* VORTEILE editorial list */
+  .v-list{border-top:1px solid #e7e7e7}
+  .v-row{display:grid;grid-template-columns:80px 1fr 1.4fr;gap:30px;padding:46px 0;border-bottom:1px solid #e7e7e7;align-items:start;transition:.4s var(--ease)}
+  .v-row:hover{padding-left:18px;background:linear-gradient(90deg,var(--fog),transparent)}
+  .v-row .idx{font-size:14px;color:var(--blue-dark);font-weight:600;letter-spacing:.1em}
+  .v-row h3{font-size:30px;font-weight:300;color:var(--black)}
+  .v-row p{color:var(--grey);font-size:16px}
+  @media(max-width:760px){.v-row{grid-template-columns:1fr;gap:10px}}
+
+  /* HORIZONTAL PINNED Leistungen */
+  .pin{height:400vh;position:relative}
+  .pin-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--anthracite);color:#fff}
+  .pin-track{display:flex;gap:50px;padding:0 7vw;will-change:transform}
+  .pin-intro{flex:none;width:60vw;display:flex;flex-direction:column;justify-content:center}
+  .pin-intro .sec-num{color:var(--blue)}
+  .pin-intro h2{font-size:clamp(34px,5vw,72px);font-weight:200;color:#fff;line-height:1.05;margin-top:20px}
+  .pin-intro h2 b{font-weight:600;color:var(--blue)}
+  .pin-card{flex:none;width:34vw;min-width:330px;background:#111;border:1px solid rgba(131,207,236,.18);border-radius:6px;padding:50px;display:flex;flex-direction:column;justify-content:space-between;height:62vh}
+  .pin-card .n{font-size:13px;color:var(--blue);letter-spacing:.2em;font-weight:600}
+  .pin-card h3{font-size:32px;font-weight:300;margin-top:auto;color:#fff}
+  .pin-card p{color:var(--grey);margin-top:16px;font-size:15px}
+  @media(max-width:760px){.pin{height:auto}.pin-sticky{position:relative;height:auto;padding:90px 0}.pin-track{flex-direction:column;transform:none!important}.pin-card{width:100%;height:auto}.pin-intro{width:100%}}
+
+  /* KENNZAHLEN */
+  .metrics{background:var(--fog)}
+  .m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e2e8ee;border:1px solid #e2e8ee;margin-top:10px}
+  .m{background:var(--fog);padding:56px 40px}
+  .m .val{font-size:clamp(46px,6vw,84px);font-weight:200;color:var(--black);letter-spacing:-.03em;line-height:1}
+  .m .val .u{color:var(--blue-dark);font-weight:300;font-size:.5em;vertical-align:baseline}
+  .m .lbl{margin-top:16px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+  @media(max-width:760px){.m-grid{grid-template-columns:1fr}}
+
+  /* VERTRAUEN */
+  .trust{background:var(--white)}
+  .t-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;margin-top:40px}
+  .t-card{border:1px solid #e7e7e7;padding:44px;border-radius:4px;transition:.4s}
+  .t-card:hover{border-color:var(--blue);box-shadow:0 20px 50px rgba(0,0,0,.06)}
+  .t-card .ico{width:44px;height:44px;border:1px solid var(--blue-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--blue-dark);margin-bottom:24px}
+  .t-card h3{font-size:22px;font-weight:300;color:var(--black);margin-bottom:10px}
+  .t-card p{color:var(--grey);font-size:15px}
+  @media(max-width:760px){.t-grid{grid-template-columns:1fr}}
+
+  /* KONTAKT */
+  .contact{background:var(--anthracite);color:#fff}
+  .contact .sec-title{color:#fff}
+  .contact-cta{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+  .contact .btn-ghost{border-color:rgba(255,255,255,.4);color:#fff}
+  .contact .btn-ghost:hover{background:#fff;color:#000}
+  .c-meta{margin-top:90px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;border-top:1px solid rgba(255,255,255,.15);padding-top:40px}
+  .c-meta .k{color:var(--blue);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+  .c-meta .v{color:rgba(255,255,255,.85);font-size:15px}
+  @media(max-width:760px){.c-meta{grid-template-columns:1fr 1fr;gap:26px}}
+
+  footer{background:#000;color:var(--grey);padding:40px 7vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;letter-spacing:.1em}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.pin{height:auto}.pin-sticky{position:relative;height:auto}.pin-track{transform:none!important;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+
+<header class="nav" id="nav">
+  <div class="logo">
+    <span class="mark"><svg viewBox="0 0 100 100"><path d="M70 20 H30 a25 25 0 0 0 0 50 H60" stroke="#000" stroke-width="11" fill="none" stroke-linecap="square"/><rect x="62" y="18" width="20" height="44" fill="#83CFEC"/></svg></span>
+    <span>CAPITAL<span class="one">1</span><small>INVESTMENT &amp; TREUHAND AG</small></span>
+  </div>
+  <nav><ul>
+    <li><a href="#vorteile">Vorteile</a></li>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#kennzahlen">Kennzahlen</a></li>
+    <li><a href="#vertrauen">Vertrauen</a></li>
+  </ul></nav>
+  <a href="#kontakt" class="nav-cta">Beratung anfragen</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">Investment &amp; Treuhand · Schweiz</div>
+    <h1>Schweizer<br>Immobilien.<br><em>Für jeden zugänglich.</em></h1>
+    <p>Ein Markt, der sonst nur Unternehmen mit hohem Eigenkapital offensteht — jetzt für Privatanleger ab 10.000 €. Sicherheit, Seriosität und exklusiver Zugang.</p>
+    <div class="hero-cta">
+      <a href="#kontakt" class="btn btn-primary">Jetzt investieren →</a>
+      <a href="#vorteile" class="btn btn-ghost">Mehr erfahren</a>
+    </div>
+  </div>
+  <div class="hero-visual" id="hv">
+    <div class="lines" id="hvlines"></div>
+    <div class="frame"></div>
+    <div class="tag"><div class="big">ab 10.000 €</div><div class="sm">Einstieg ins Schweizer Immobilien-Investment</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee"><div>
+  <span>Sicherheit vor Spekulation</span><span>·</span><span><b>Planbare Rendite</b></span><span>·</span><span>Notariell beglaubigt</span><span>·</span><span><b>Swissness</b></span><span>·</span><span>Alles inkludiert</span><span>·</span>
+  <span>Sicherheit vor Spekulation</span><span>·</span><span><b>Planbare Rendite</b></span><span>·</span><span>Notariell beglaubigt</span><span>·</span><span><b>Swissness</b></span><span>·</span><span>Alles inkludiert</span><span>·</span>
+</div></div>
+
+<!-- VORTEILE -->
+<section id="vorteile">
+  <div class="sec-head">
+    <span class="sec-num reveal">02 — Ihre Vorteile</span>
+    <h2 class="sec-title reveal d1">Sicherheit, <b>die sich rechnet.</b></h2>
+    <p class="sec-intro reveal d2">Eine sichere, risikoarme Investitionsmöglichkeit mit hoher, planbarer Rendite — und ohne steuerliche Nachteile.</p>
+  </div>
+  <div class="v-list">
+    <div class="v-row reveal"><span class="idx">01</span><h3>Ab 10.000 € einsteigen</h3><p>Immobilienanleger werden, ohne hohes Eigenkapital — exklusiver Zugang zum Schweizer Markt.</p></div>
+    <div class="v-row reveal"><span class="idx">02</span><h3>Sicher &amp; risikoarm</h3><p>Substanzwerte statt Spekulation. Sicherheit ist der Kern unseres Versprechens.</p></div>
+    <div class="v-row reveal"><span class="idx">03</span><h3>Hohe, planbare Rendite</h3><p>Kalkulierbare Erträge durch aktive Wertsteigerung Ihrer Objekte.</p></div>
+    <div class="v-row reveal"><span class="idx">04</span><h3>Keine steuerlichen Nachteile</h3><p>Steuerlich optimiert und notariell beglaubigt — rechtssicher aufgesetzt.</p></div>
+  </div>
+</section>
+
+<!-- LEISTUNGEN horizontal pinned -->
+<section class="pin" id="leistungen" style="padding:0">
+  <div class="pin-sticky">
+    <div class="pin-track" id="track">
+      <div class="pin-intro">
+        <span class="sec-num">03 — Leistungen</span>
+        <h2>Rundum betreut.<br><b>Alles inkludiert.</b></h2>
+      </div>
+      <div class="pin-card"><span class="n">/ 01</span><h3>Gebäude­projekt­entwicklung</h3><p>Aktive Wertsteigerung Ihrer Immobilie durch professionelle Projektentwicklung.</p></div>
+      <div class="pin-card"><span class="n">/ 02</span><h3>Hausverwaltung</h3><p>Komplette Bewirtschaftung — Sie müssen sich um nichts kümmern.</p></div>
+      <div class="pin-card"><span class="n">/ 03</span><h3>Finanzverwaltung</h3><p>Transparente Verwaltung Ihrer Erträge und Finanzen.</p></div>
+      <div class="pin-card"><span class="n">/ 04</span><h3>Versicherung</h3><p>Vollständige Versicherungsabwicklung inklusive.</p></div>
+      <div class="pin-card"><span class="n">/ 05</span><h3>Steuererklärung</h3><p>Wir übernehmen Ihre Steuererklärung — ein Aufwand weniger.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- KENNZAHLEN -->
+<section class="metrics" id="kennzahlen">
+  <div class="sec-head">
+    <span class="sec-num reveal">04 — Kennzahlen</span>
+    <h2 class="sec-title reveal d1">Zahlen mit <b>Substanz.</b></h2>
+  </div>
+  <div class="m-grid">
+    <div class="m reveal d1"><div class="val">ab <span class="count" data-to="10">0</span>.000<span class="u"> €</span></div><div class="lbl">Mindest-Einstieg</div></div>
+    <div class="m reveal d2"><div class="val"><span class="count" data-to="100">0</span><span class="u">%</span></div><div class="lbl">Notariell beglaubigt</div></div>
+    <div class="m reveal d3"><div class="val"><span class="count" data-to="5">0</span><span class="u"> Leistungen</span></div><div class="lbl">Rundum inkludiert</div></div>
+  </div>
+</section>
+
+<!-- VERTRAUEN -->
+<section class="trust" id="vertrauen">
+  <div class="sec-head">
+    <span class="sec-num reveal">05 — Vertrauen &amp; Zertifizierung</span>
+    <h2 class="sec-title reveal d1">Seriosität, <b>schwarz auf weiß.</b></h2>
+    <p class="sec-intro reveal d2">In der Schweiz domiziliert. Notariell beglaubigt. Zertifiziert. Vertrauen ist bei uns nachweisbar.</p>
+  </div>
+  <div class="t-grid">
+    <div class="t-card reveal d1"><div class="ico">✓</div><h3>Notariell beglaubigt &amp; zertifiziert</h3><p>Jede Beteiligung ist rechtlich abgesichert und offiziell dokumentiert.</p></div>
+    <div class="t-card reveal d2"><div class="ico">⌖</div><h3>Schweizer AG</h3><p>Domiziliert in St. Margrethen — „Swissness" als Vertrauensanker.</p></div>
+    <div class="t-card reveal d3"><div class="ico">◇</div><h3>Maßgeschneiderte Lösungen</h3><p>Individuell auf Ihre Anlageziele zugeschnittene Investitionslösungen.</p></div>
+    <div class="t-card reveal d4"><div class="ico">€</div><h3>Keine steuerlichen Nachteile</h3><p>Steuerlich optimiert — Ihr Ertrag bleibt planbar.</p></div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section class="contact" id="kontakt">
+  <div class="sec-head">
+    <span class="sec-num reveal" style="color:var(--blue)">06 — Kontakt</span>
+    <h2 class="sec-title reveal d1">Sprechen wir über <b>Ihr Investment.</b></h2>
+  </div>
+  <div class="contact-cta reveal d2">
+    <a href="mailto:Info@capital1.ch" class="btn btn-primary">Jetzt investieren →</a>
+    <a href="mailto:Info@capital1.ch" class="btn btn-ghost">Beratung anfragen</a>
+  </div>
+  <div class="c-meta">
+    <div class="reveal d1"><div class="k">Firma</div><div class="v">CAPITAL1 AG — Investment &amp; Treuhand AG</div></div>
+    <div class="reveal d2"><div class="k">Adresse</div><div class="v">Grenzstrasse 25, 9430 St. Margrethen, Schweiz</div></div>
+    <div class="reveal d3"><div class="k">Web</div><div class="v">www.capital1.ch</div></div>
+    <div class="reveal d4"><div class="k">E-Mail</div><div class="v">Info@capital1.ch</div></div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 CAPITAL1 — Investment &amp; Treuhand AG</span>
+  <span>Entwurf 2 · Swiss Editorial · Stand Juni 2026 · V1.0</span>
+</footer>
+
+<script>
+  const prog=document.getElementById('prog'),nav=document.getElementById('nav');
+  function sc(){const h=document.documentElement.scrollHeight-innerHeight;prog.style.width=(scrollY/h*100)+'%';nav.classList.toggle('scrolled',scrollY>40);}
+  addEventListener('scroll',sc,{passive:true});sc();
+
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);
+    const el=e.target,to=+el.dataset.to;let s=null;
+    function st(t){if(!s)s=t;const p=Math.min((t-s)/1300,1);el.textContent=Math.round((1-Math.pow(1-p,3))*to);if(p<1)requestAnimationFrame(st);}requestAnimationFrame(st);
+  }),{threshold:.6});
+  document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+
+  /* hero deco lines */
+  const hvl=document.getElementById('hvlines');
+  for(let i=0;i<14;i++){const l=document.createElement('i');l.style.top=(i/14*100)+'%';hvl.appendChild(l);}
+  const hv=document.getElementById('hv');
+  addEventListener('mousemove',e=>{const r=hv.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+    const x=(e.clientX/innerWidth-.5)*16,y=(e.clientY/innerHeight-.5)*16;
+    hvl.style.transform=`translate(${x}px,${y}px)`;});
+
+  /* horizontal pinned scroll */
+  const pin=document.getElementById('leistungen'),track=document.getElementById('track');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function pinScroll(){
+    if(reduce||innerWidth<=760){track.style.transform='';return;}
+    const rect=pin.getBoundingClientRect();
+    const total=pin.offsetHeight-innerHeight;
+    let p=Math.min(Math.max(-rect.top/total,0),1);
+    const max=track.scrollWidth-innerWidth;
+    track.style.transform=`translateX(${-p*max}px)`;
+  }
+  addEventListener('scroll',pinScroll,{passive:true});addEventListener('resize',pinScroll);pinScroll();
+</script>
+</body>
+</html>

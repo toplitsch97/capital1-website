@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAPITAL1 — Performance &amp; Rendite · Entwurf 3</title>
+<style>
+  :root{
+    --black:#000;--anthracite:#1A1A1A;--blue:#83CFEC;--blue-dark:#1F8FBF;
+    --grey:#6B7280;--fog:#F5F8FA;--white:#fff;
+    --font:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);background:var(--anthracite);color:#fff;font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--blue);color:#000}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--blue);z-index:300;width:0}
+
+  header.nav{position:fixed;inset:0 0 auto 0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 5vw;transition:.4s var(--ease);border-bottom:1px solid transparent}
+  header.nav.scrolled{background:rgba(10,10,10,.8);backdrop-filter:blur(16px);padding:14px 5vw;border-bottom:1px solid rgba(131,207,236,.14)}
+  .logo{display:flex;align-items:center;gap:12px;font-size:20px;letter-spacing:.04em}
+  .logo .mark{width:32px;height:32px;flex:none}.logo .mark svg{width:100%;height:100%}
+  .logo .one{color:var(--blue);font-weight:600}
+  .logo small{display:block;font-size:7.5px;letter-spacing:.26em;color:var(--grey);font-weight:600;margin-top:2px}
+  nav ul{display:flex;gap:32px;list-style:none}
+  nav a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;transition:.3s}
+  nav a:hover{color:var(--blue)}
+  .nav-cta{padding:11px 22px;background:var(--blue-dark);color:#fff;text-decoration:none;font-size:13px;letter-spacing:.05em;border-radius:3px;transition:.3s}
+  .nav-cta:hover{background:var(--blue);color:#000}
+  @media(max-width:880px){nav ul{display:none}}
+
+  /* sticky live ticker */
+  .ticker{position:fixed;bottom:0;left:0;right:0;z-index:180;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);border-top:1px solid rgba(131,207,236,.2);display:flex;justify-content:space-around;padding:12px 5vw;transform:translateY(120%);transition:transform .5s var(--ease)}
+  .ticker.show{transform:none}
+  .ticker .ti{text-align:center}
+  .ticker .ti .v{font-size:19px;font-weight:300;color:var(--blue)}
+  .ticker .ti .l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  @media(max-width:600px){.ticker .ti:nth-child(n+3){display:none}}
+
+  /* HERO with live chart */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:120px 5vw 60px;gap:50px;position:relative;background:radial-gradient(120% 100% at 0% 0%,#101417,#0a0a0a 60%)}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:28px;display:flex;align-items:center;gap:14px}
+  .eyebrow::before{content:"";width:48px;height:1px;background:var(--blue)}
+  h1{font-size:clamp(42px,5.6vw,84px);font-weight:200;line-height:1.02;letter-spacing:-.025em}
+  h1 .accent{color:var(--blue)}
+  .hero p{max-width:480px;margin-top:26px;color:rgba(255,255,255,.7);font-size:17px}
+  .hero-cta{display:flex;gap:15px;margin-top:38px;flex-wrap:wrap}
+  .btn{padding:15px 30px;font-size:15px;letter-spacing:.03em;text-decoration:none;cursor:pointer;transition:.35s var(--ease);display:inline-flex;align-items:center;gap:9px;border:1px solid transparent;border-radius:3px}
+  .btn-primary{background:var(--blue);color:#000;font-weight:500}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(131,207,236,.4)}
+  .btn-ghost{border-color:rgba(255,255,255,.3);color:#fff}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+  .chart-card{background:rgba(255,255,255,.03);border:1px solid rgba(131,207,236,.18);border-radius:10px;padding:30px;position:relative;overflow:hidden}
+  .chart-card h4{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);font-weight:600}
+  .chart-card .pv{font-size:40px;font-weight:200;margin:8px 0 2px;color:#fff}
+  .chart-card .pv .up{color:var(--blue);font-size:18px;margin-left:10px}
+  svg.spark{width:100%;height:200px;margin-top:16px;overflow:visible}
+  .spark path.area{fill:url(#grad);opacity:0}
+  .spark path.line{fill:none;stroke:var(--blue);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .spark .dot{fill:#fff;stroke:var(--blue);stroke-width:2}
+  @media(max-width:880px){.hero{grid-template-columns:1fr}.chart-card{margin-top:10px}}
+
+  section{padding:130px 5vw;position:relative}
+  .sec-label{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:20px}
+  .sec-title{font-size:clamp(32px,4.4vw,56px);font-weight:200;line-height:1.05;letter-spacing:-.02em;max-width:880px}
+  .sec-title b{font-weight:600}
+  .reveal{opacity:0;transform:translateY(36px);transition:all 1s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}.reveal.d4{transition-delay:.4s}
+
+  /* VORTEILE w/ bars */
+  .vorteile{background:var(--anthracite)}
+  .bars{margin-top:70px;display:grid;gap:30px;max-width:880px}
+  .bar-row{display:grid;grid-template-columns:240px 1fr 70px;gap:24px;align-items:center}
+  .bar-row .name{font-size:18px;font-weight:300}
+  .bar-track{height:8px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+  .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue-dark),var(--blue));border-radius:20px;transition:width 1.6s var(--ease)}
+  .bar-row .pct{text-align:right;color:var(--blue);font-size:16px;font-weight:300}
+  @media(max-width:680px){.bar-row{grid-template-columns:1fr;gap:8px}.bar-row .pct{text-align:left}}
+
+  /* FUNKTIONSWEISE timeline */
+  .how{background:linear-gradient(180deg,var(--anthracite),#0c0c0c)}
+  .timeline{margin-top:70px;position:relative;padding-left:40px}
+  .timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:rgba(131,207,236,.25)}
+  .timeline .prog{position:absolute;left:8px;top:6px;width:2px;background:var(--blue);height:0;transition:height .2s linear}
+  .tl{position:relative;padding:0 0 56px 30px}
+  .tl::before{content:"";position:absolute;left:-39px;top:4px;width:16px;height:16px;border-radius:50%;background:#0c0c0c;border:2px solid var(--blue)}
+  .tl h3{font-size:24px;font-weight:300}.tl .s{color:var(--blue);font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+  .tl p{color:var(--grey)}
+
+  /* KENNZAHLEN big */
+  .metrics{background:#0c0c0c;text-align:center}
+  .m-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(131,207,236,.15);border:1px solid rgba(131,207,236,.15);margin-top:60px}
+  .m{background:#0c0c0c;padding:54px 26px;transition:background .4s}
+  .m:hover{background:#11161a}
+  .m .val{font-size:clamp(40px,5.2vw,72px);font-weight:200;letter-spacing:-.03em;line-height:1}
+  .m .val .u{color:var(--blue);font-size:.45em}
+  .m .lbl{margin-top:14px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  @media(max-width:760px){.m-grid{grid-template-columns:1fr 1fr}}
+
+  /* RECHNER */
+  .calc{background:var(--anthracite)}
+  .calc-card{margin-top:50px;background:rgba(255,255,255,.03);border:1px solid rgba(131,207,236,.18);border-radius:12px;padding:50px;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  .calc label{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);font-weight:600}
+  .calc .amount{font-size:clamp(40px,5vw,68px);font-weight:200;color:#fff;margin:10px 0 26px}
+  .calc .amount .u{color:var(--blue);font-size:.4em}
+  input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:10px;background:rgba(255,255,255,.12);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 0 0 6px rgba(131,207,236,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border:none;border-radius:50%;background:var(--blue);cursor:pointer}
+  .calc .range-meta{display:flex;justify-content:space-between;color:var(--grey);font-size:12px;margin-top:10px}
+  .calc-out{border-left:1px solid rgba(255,255,255,.1);padding-left:50px}
+  .calc-out .ro{margin-bottom:26px}
+  .calc-out .ro .l{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+  .calc-out .ro .v{font-size:34px;font-weight:200;color:var(--blue)}
+  .calc-note{font-size:12px;color:var(--grey);margin-top:8px}
+  @media(max-width:760px){.calc-card{grid-template-columns:1fr;gap:34px}.calc-out{border-left:none;border-top:1px solid rgba(255,255,255,.1);padding-left:0;padding-top:34px}}
+
+  /* VERTRAUEN */
+  .trust{background:#0c0c0c}
+  .badges{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:60px}
+  .badge{border:1px solid rgba(131,207,236,.2);border-radius:8px;padding:36px 26px;text-align:center;transition:.4s}
+  .badge:hover{border-color:var(--blue);transform:translateY(-4px)}
+  .badge .ic{width:50px;height:50px;border-radius:50%;border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--blue);font-size:20px}
+  .badge h4{font-size:16px;font-weight:300;margin-bottom:6px}
+  .badge p{font-size:13px;color:var(--grey)}
+  @media(max-width:760px){.badges{grid-template-columns:1fr 1fr}}
+
+  /* KONTAKT */
+  .contact{background:#000;text-align:center}
+  .contact .sec-title{margin:0 auto}
+  .c-cta{margin-top:42px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .c-meta{margin-top:80px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:left;border-top:1px solid rgba(255,255,255,.12);padding-top:40px}
+  .c-meta .k{color:var(--blue);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+  .c-meta .v{color:rgba(255,255,255,.85);font-size:15px}
+  @media(max-width:760px){.c-meta{grid-template-columns:1fr 1fr;gap:26px}}
+
+  footer{background:#000;color:var(--grey);padding:40px 5vw 90px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;letter-spacing:.1em;border-top:1px solid rgba(255,255,255,.08)}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.bar-fill{transition:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+
+<header class="nav" id="nav">
+  <div class="logo">
+    <span class="mark"><svg viewBox="0 0 100 100"><path d="M70 20 H30 a25 25 0 0 0 0 50 H60" stroke="#fff" stroke-width="11" fill="none" stroke-linecap="square"/><rect x="62" y="18" width="20" height="44" fill="#83CFEC"/></svg></span>
+    <span>CAPITAL<span class="one">1</span><small>INVESTMENT &amp; TREUHAND AG</small></span>
+  </div>
+  <nav><ul>
+    <li><a href="#vorteile">Vorteile</a></li>
+    <li><a href="#how">Funktionsweise</a></li>
+    <li><a href="#kennzahlen">Kennzahlen</a></li>
+    <li><a href="#rechner">Rechner</a></li>
+  </ul></nav>
+  <a href="#kontakt" class="nav-cta">Jetzt investieren</a>
+</header>
+
+<div class="ticker" id="ticker">
+  <div class="ti"><div class="v">ab 10.000 €</div><div class="l">Einstieg</div></div>
+  <div class="ti"><div class="v">100 %</div><div class="l">Notariell</div></div>
+  <div class="ti"><div class="v">5</div><div class="l">Leistungen inkl.</div></div>
+  <div class="ti"><div class="v">CH</div><div class="l">Swissness</div></div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">Performance &amp; Rendite</div>
+    <h1>Planbare<br>Rendite.<br><span class="accent">Schweizer Sicherheit.</span></h1>
+    <p>Hohe, planbare Erträge aus dem Schweizer Immobilienmarkt — risikoarm, notariell beglaubigt und schon ab 10.000 € zugänglich.</p>
+    <div class="hero-cta">
+      <a href="#kontakt" class="btn btn-primary">Jetzt investieren →</a>
+      <a href="#rechner" class="btn btn-ghost">Rendite berechnen</a>
+    </div>
+  </div>
+  <div class="chart-card reveal d1">
+    <h4>Wertentwicklung · illustrativ</h4>
+    <div class="pv" id="heroVal">0 €<span class="up" id="heroUp"></span></div>
+    <svg class="spark" id="spark" viewBox="0 0 500 200" preserveAspectRatio="none">
+      <defs><linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#83CFEC" stop-opacity=".35"/>
+        <stop offset="1" stop-color="#83CFEC" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path class="area" id="area"></path>
+      <path class="line" id="line"></path>
+      <circle class="dot" id="dot" r="5"></circle>
+    </svg>
+  </div>
+</section>
+
+<!-- VORTEILE bars -->
+<section class="vorteile" id="vorteile">
+  <div class="sec-label reveal">01 — Ihre Vorteile</div>
+  <h2 class="sec-title reveal d1">Was ein <b>CAPITAL1-Investment</b> auszeichnet.</h2>
+  <div class="bars">
+    <div class="bar-row reveal"><span class="name">Sicherheit</span><div class="bar-track"><div class="bar-fill" data-w="96"></div></div><span class="pct" data-to="96">0%</span></div>
+    <div class="bar-row reveal"><span class="name">Planbarkeit der Rendite</span><div class="bar-track"><div class="bar-fill" data-w="92"></div></div><span class="pct" data-to="92">0%</span></div>
+    <div class="bar-row reveal"><span class="name">Risikoarmut</span><div class="bar-track"><div class="bar-fill" data-w="90"></div></div><span class="pct" data-to="90">0%</span></div>
+    <div class="bar-row reveal"><span class="name">Steuerliche Effizienz</span><div class="bar-track"><div class="bar-fill" data-w="88"></div></div><span class="pct" data-to="88">0%</span></div>
+    <div class="bar-row reveal"><span class="name">Rundum-Betreuung</span><div class="bar-track"><div class="bar-fill" data-w="100"></div></div><span class="pct" data-to="100">0%</span></div>
+  </div>
+</section>
+
+<!-- FUNKTIONSWEISE timeline -->
+<section class="how" id="how">
+  <div class="sec-label reveal">02 — Funktionsweise</div>
+  <h2 class="sec-title reveal d1">Ihr Weg zur <b>Schweizer Rendite.</b></h2>
+  <div class="timeline" id="timeline">
+    <div class="prog" id="tlprog"></div>
+    <div class="tl reveal"><div class="s">Schritt 01</div><h3>Beratung &amp; Zielsetzung</h3><p>Wir erfassen Ihre Anlageziele und entwickeln eine maßgeschneiderte Investitionslösung.</p></div>
+    <div class="tl reveal"><div class="s">Schritt 02</div><h3>Objektauswahl</h3><p>Geprüfte Schweizer Immobilien mit Wertsteigerungspotenzial und planbarer Rendite.</p></div>
+    <div class="tl reveal"><div class="s">Schritt 03</div><h3>Notarielle Beteiligung</h3><p>Ihre Investition wird notariell beglaubigt und zertifiziert — volle Rechtssicherheit.</p></div>
+    <div class="tl reveal"><div class="s">Schritt 04</div><h3>Verwaltung &amp; Ertrag</h3><p>Rundum-Betreuung von Hausverwaltung bis Steuererklärung. Sie erhalten planbare Erträge.</p></div>
+  </div>
+</section>
+
+<!-- KENNZAHLEN -->
+<section class="metrics" id="kennzahlen">
+  <div class="sec-label reveal" style="text-align:center">03 — Kennzahlen</div>
+  <h2 class="sec-title reveal d1" style="margin:0 auto">In <b>Zahlen</b> gesprochen.</h2>
+  <div class="m-grid">
+    <div class="m reveal d1"><div class="val">ab <span class="count" data-to="10">0</span>.000<span class="u"> €</span></div><div class="lbl">Mindesteinstieg</div></div>
+    <div class="m reveal d2"><div class="val"><span class="count" data-to="100">0</span><span class="u">%</span></div><div class="lbl">Notariell beglaubigt</div></div>
+    <div class="m reveal d3"><div class="val"><span class="count" data-to="5">0</span></div><div class="lbl">Leistungen inkl.</div></div>
+    <div class="m reveal d4"><div class="val">CH</div><div class="lbl">Domiziliert · Swissness</div></div>
+  </div>
+</section>
+
+<!-- RECHNER -->
+<section class="calc" id="rechner">
+  <div class="sec-label reveal">04 — Investitions-Rechner</div>
+  <h2 class="sec-title reveal d1">Sehen Sie Ihr <b>Potenzial.</b></h2>
+  <div class="calc-card reveal d2">
+    <div>
+      <label>Ihr Investitionsbetrag</label>
+      <div class="amount"><span id="amt">25.000</span><span class="u"> €</span></div>
+      <input type="range" id="range" min="10000" max="500000" step="5000" value="25000">
+      <div class="range-meta"><span>10.000 €</span><span>500.000 €</span></div>
+    </div>
+    <div class="calc-out">
+      <div class="ro"><div class="l">Laufzeit (illustrativ)</div><div class="v">10 Jahre</div></div>
+      <div class="ro"><div class="l">Geschätzter Endwert*</div><div class="v" id="endwert">– €</div></div>
+      <div class="ro"><div class="l">Wertzuwachs*</div><div class="v" id="zuwachs">– €</div></div>
+      <p class="calc-note">*Illustrative Modellrechnung, keine Renditezusage. Konkrete Konditionen im persönlichen Beratungsgespräch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERTRAUEN -->
+<section class="trust" id="vertrauen">
+  <div class="sec-label reveal">05 — Vertrauen &amp; Zertifizierung</div>
+  <h2 class="sec-title reveal d1">Geprüft. Beglaubigt. <b>Schweizerisch.</b></h2>
+  <div class="badges">
+    <div class="badge reveal d1"><div class="ic">✓</div><h4>Notariell beglaubigt</h4><p>Jede Beteiligung rechtssicher dokumentiert.</p></div>
+    <div class="badge reveal d2"><div class="ic">⌖</div><h4>Zertifiziert</h4><p>Offiziell geprüfte Investitionsprozesse.</p></div>
+    <div class="badge reveal d3"><div class="ic">CH</div><h4>Schweizer AG</h4><p>Domiziliert in St. Margrethen.</p></div>
+    <div class="badge reveal d4"><div class="ic">€</div><h4>Steuerlich optimiert</h4><p>Keine steuerlichen Nachteile.</p></div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section class="contact" id="kontakt">
+  <div class="sec-label reveal" style="text-align:center">06 — Kontakt</div>
+  <h2 class="sec-title reveal d1">Starten Sie Ihr <b>Schweizer Investment.</b></h2>
+  <div class="c-cta reveal d2">
+    <a href="mailto:Info@capital1.ch" class="btn btn-primary">Jetzt investieren →</a>
+    <a href="mailto:Info@capital1.ch" class="btn btn-ghost">Beratung anfragen</a>
+  </div>
+  <div class="c-meta">
+    <div class="reveal d1"><div class="k">Firma</div><div class="v">CAPITAL1 AG — Investment &amp; Treuhand AG</div></div>
+    <div class="reveal d2"><div class="k">Adresse</div><div class="v">Grenzstrasse 25, 9430 St. Margrethen, Schweiz</div></div>
+    <div class="reveal d3"><div class="k">Web</div><div class="v">www.capital1.ch</div></div>
+    <div class="reveal d4"><div class="k">E-Mail</div><div class="v">Info@capital1.ch</div></div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 CAPITAL1 — Investment &amp; Treuhand AG</span>
+  <span>Entwurf 3 · Performance / Data-Premium · Stand Juni 2026 · V1.0</span>
+</footer>
+
+<script>
+  const prog=document.getElementById('prog'),nav=document.getElementById('nav'),ticker=document.getElementById('ticker');
+  function sc(){const h=document.documentElement.scrollHeight-innerHeight;prog.style.width=(scrollY/h*100)+'%';nav.classList.toggle('scrolled',scrollY>40);ticker.classList.toggle('show',scrollY>innerHeight*0.8);}
+  addEventListener('scroll',sc,{passive:true});sc();
+
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* count up (numbers + % bars) */
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);
+    const el=e.target,to=+el.dataset.to,suf=el.textContent.includes('%')?'%':'';let s=null;
+    function st(t){if(!s)s=t;const p=Math.min((t-s)/1300,1);el.textContent=Math.round((1-Math.pow(1-p,3))*to)+suf;if(p<1)requestAnimationFrame(st);}requestAnimationFrame(st);
+  }),{threshold:.6});
+  document.querySelectorAll('.count,.pct').forEach(el=>cio.observe(el));
+
+  /* bars */
+  const bio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.w+'%';bio.unobserve(e.target);}}),{threshold:.5});
+  document.querySelectorAll('.bar-fill').forEach(el=>bio.observe(el));
+
+  /* hero spark chart: build path, animate stroke + value */
+  const pts=[[0,170],[55,150],[110,158],[165,120],[220,128],[275,90],[330,96],[385,55],[440,40],[500,18]];
+  const line=document.getElementById('line'),area=document.getElementById('area'),dot=document.getElementById('dot');
+  const d='M'+pts.map(p=>p.join(' ')).join(' L ');
+  line.setAttribute('d',d);
+  area.setAttribute('d',d+` L 500 200 L 0 200 Z`);
+  const len=line.getTotalLength();
+  line.style.strokeDasharray=len;line.style.strokeDashoffset=len;
+  const heroVal=document.getElementById('heroVal'),heroUp=document.getElementById('heroUp');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const hio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;hio.unobserve(e.target);
+    if(reduce){line.style.strokeDashoffset=0;area.style.opacity=1;heroVal.firstChild.textContent='38.500 €';heroUp.textContent='▲ +54%';
+      const last=pts[pts.length-1];dot.setAttribute('cx',last[0]);dot.setAttribute('cy',last[1]);return;}
+    let s=null;const dur=2200;
+    function st(t){if(!s)s=t;const p=Math.min((t-s)/dur,1);const e=1-Math.pow(1-p,3);
+      line.style.strokeDashoffset=len*(1-e);area.style.opacity=e;
+      const pos=line.getPointAtLength(len*e);dot.setAttribute('cx',pos.x);dot.setAttribute('cy',pos.y);
+      heroVal.firstChild.textContent=Math.round(25000+13500*e).toLocaleString('de-DE')+' €';
+      heroUp.textContent='▲ +'+Math.round(54*e)+'%';
+      if(p<1)requestAnimationFrame(st);}
+    requestAnimationFrame(st);
+  }),{threshold:.4});
+  hio.observe(document.getElementById('spark'));
+
+  /* timeline progress line */
+  const tl=document.getElementById('timeline'),tlprog=document.getElementById('tlprog');
+  function tlp(){const r=tl.getBoundingClientRect();const total=r.height;const seen=Math.min(Math.max(innerHeight*0.6-r.top,0),total);tlprog.style.height=seen+'px';}
+  addEventListener('scroll',tlp,{passive:true});addEventListener('resize',tlp);tlp();
+
+  /* calculator */
+  const range=document.getElementById('range'),amt=document.getElementById('amt'),endEl=document.getElementById('endwert'),zuEl=document.getElementById('zuwachs');
+  function calc(){const v=+range.value;const end=Math.round(v*1.54/100)*100;
+    amt.textContent=v.toLocaleString('de-DE');
+    endEl.textContent=end.toLocaleString('de-DE')+' €';
+    zuEl.textContent='+ '+(end-v).toLocaleString('de-DE')+' €';}
+  range.addEventListener('input',calc);calc();
+</script>
+</body>
+</html>
