@@ -180,14 +180,16 @@
   /* ============ KENNZAHLEN ============ */
   .metrics{background:var(--black);text-align:center}
   .m-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(131,207,236,.14);border:1px solid rgba(131,207,236,.14);margin-top:64px}
-  .m{background:var(--black);padding:56px 24px;transition:background .4s}
+  .m{background:var(--black);padding:56px 18px;transition:background .4s}
   .m:hover{background:#0c0c0c}
-  .m .val{font-size:clamp(40px,5.4vw,76px);font-weight:200;letter-spacing:-.03em;line-height:1}
+  .m .val{font-size:clamp(32px,4.6vw,64px);font-weight:200;letter-spacing:-.03em;line-height:1;white-space:nowrap}
   .m .val .u{color:var(--blue);font-size:.45em}
+  .m .val .pre{color:var(--grey);font-size:.3em;font-weight:500;letter-spacing:.06em;vertical-align:.55em;margin-right:.18em}
   .m .lbl{margin-top:14px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
   .m .val sup{font-size:.26em;color:var(--blue);vertical-align:super;font-weight:600;margin-left:3px}
   .m-note{max-width:720px;margin:30px auto 0;font-size:12px;line-height:1.65;color:var(--grey);letter-spacing:.01em}
   @media(max-width:760px){.m-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.m-grid{grid-template-columns:1fr}}
 
   /* ============ PORTFOLIO ============ */
   .portfolio{background:var(--anthracite)}
@@ -211,6 +213,7 @@
   .t-row .chk{width:30px;height:30px;flex:none;border:1px solid var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:14px}
   .seal{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
   .seal .ring{width:170px;height:170px;border:1px solid var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:46px;font-weight:200;color:var(--blue);position:relative}
+  .seal .ring .ch-flag{width:62px;height:62px;border-radius:7px;box-shadow:0 6px 22px rgba(213,43,30,.35),0 0 0 1px rgba(255,255,255,.06)}
   .seal .ring::before{content:"";position:absolute;inset:-14px;border:1px solid rgba(131,207,236,.3);border-radius:50%;animation:spin 24s linear infinite}
   .seal .ring::after{content:"NOTARIELL · ZERTIFIZIERT · SWISS MADE · ";position:absolute;width:230px;height:230px;font-size:10px;letter-spacing:.18em;color:rgba(131,207,236,.5)}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -426,7 +429,7 @@
   <div class="sec-label reveal" style="text-align:center">04 — Kennzahlen</div>
   <h2 class="sec-title reveal d1" style="margin:0 auto">Zahlen, die <b>Vertrauen</b> schaffen.</h2>
   <div class="m-grid">
-    <div class="m reveal d1"><div class="val">ab <span class="count" data-to="10">0</span>.000<span class="u"> CHF</span></div><div class="lbl">Mindesteinstieg</div></div>
+    <div class="m reveal d1"><div class="val"><span class="pre">ab</span><span class="count" data-to="10000" data-sep="1">0</span><span class="u"> CHF</span></div><div class="lbl">Mindesteinstieg</div></div>
     <div class="m reveal d2"><div class="val">+<span class="count" data-to="14.5" data-dec="1">0</span><span class="u"> %</span><sup>1</sup></div><div class="lbl">Ø Rendite p.a.</div></div>
     <div class="m reveal d3"><div class="val"><span class="count" data-to="4555" data-sep="1">0</span><span class="u"> CHF</span><sup>1</sup></div><div class="lbl">Ø Mietertrag</div></div>
     <div class="m reveal d4"><div class="val"><span class="count" data-to="3">0</span></div><div class="lbl">Standorte · CH</div></div>
@@ -447,9 +450,15 @@
       <div class="t-row"><span class="chk">✓</span> Massgeschneiderte Investitionslösungen</div>
     </div>
     <div class="seal reveal d2">
-      <div class="ring">CH</div>
+      <div class="ring">
+        <svg class="ch-flag" viewBox="0 0 32 32" role="img" aria-label="Schweizer Flagge">
+          <rect width="32" height="32" rx="4" fill="#D52B1E"/>
+          <rect x="13" y="6" width="6" height="20" fill="#fff"/>
+          <rect x="6" y="13" width="20" height="6" fill="#fff"/>
+        </svg>
+      </div>
       <h4>Swiss Made Investment</h4>
-      <p>Notariell · Zertifiziert · St. Margrethen</p>
+      <p>Notariell · Zertifiziert · Zürich</p>
     </div>
   </div>
 </section>
