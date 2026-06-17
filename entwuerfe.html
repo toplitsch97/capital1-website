@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAPITAL1 — Website-Entwürfe · Übersicht</title>
+<style>
+  :root{--black:#000;--blue:#83CFEC;--blue-dark:#1F8FBF;--grey:#6B7280;--fog:#F5F8FA;--font:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font);background:#000;color:#fff;font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh}
+  ::selection{background:var(--blue);color:#000}
+  .wrap{max-width:1200px;margin:0 auto;padding:80px 6vw}
+  .head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .mark{width:40px;height:40px}.mark svg{width:100%;height:100%}
+  .head .name{font-size:24px;letter-spacing:.04em}.head .one{color:var(--blue);font-weight:600}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--blue);font-weight:600;margin:50px 0 18px;display:flex;align-items:center;gap:14px}
+  .eyebrow::before{content:"";width:48px;height:1px;background:var(--blue)}
+  h1{font-size:clamp(38px,6vw,72px);font-weight:200;line-height:1.04;letter-spacing:-.02em}
+  h1 b{font-weight:600;color:var(--blue)}
+  .lead{color:var(--grey);max-width:620px;margin-top:22px;font-size:17px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:70px}
+  .card{background:#0c0c0c;border:1px solid rgba(131,207,236,.18);border-radius:10px;overflow:hidden;text-decoration:none;color:#fff;transition:.4s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-6px);border-color:var(--blue);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .thumb{height:180px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .t1{background:radial-gradient(120% 100% at 100% 0%,rgba(131,207,236,.25),#0a0a0a 60%)}
+  .t2{background:#f4f7fa}
+  .t3{background:linear-gradient(160deg,#11161a,#0a0a0a)}
+  .thumb .mini{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+  .t2 .mini{color:#1F8FBF}
+  .thumb svg{position:absolute;inset:0;width:100%;height:100%}
+  .card .body{padding:26px}
+  .card .num{font-size:12px;color:var(--blue);letter-spacing:.2em;font-weight:600}
+  .card h3{font-size:22px;font-weight:300;margin:8px 0 10px}
+  .card p{color:var(--grey);font-size:14px;line-height:1.6}
+  .card .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .card .tags span{font-size:11px;letter-spacing:.08em;color:var(--blue);border:1px solid rgba(131,207,236,.3);padding:5px 10px;border-radius:20px}
+  .card .open{margin-top:22px;font-size:14px;color:var(--blue);display:inline-flex;align-items:center;gap:8px}
+  .note{margin-top:60px;padding:24px 28px;border-left:2px solid var(--blue);background:rgba(131,207,236,.06);color:#cfd6da;font-size:14px;line-height:1.7;border-radius:0 6px 6px 0}
+  .note b{color:#fff;font-weight:500}
+  footer{color:var(--grey);font-size:12px;letter-spacing:.1em;margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,.1)}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <span class="mark"><svg viewBox="0 0 100 100"><path d="M70 20 H30 a25 25 0 0 0 0 50 H60" stroke="#fff" stroke-width="11" fill="none" stroke-linecap="square"/><rect x="62" y="18" width="20" height="44" fill="#83CFEC"/></svg></span>
+    <span class="name">CAPITAL<span class="one">1</span></span>
+  </div>
+
+  <div class="eyebrow">Website-Entwürfe · CI-konform</div>
+  <h1>Cinematic.<br>Ein <b>Markenkern.</b></h1>
+  <p class="lead">Eye-Catcher-Entwürfe für die CAPITAL1-Website — alle basierend auf dem CI-Leitfaden (Schwarz / Capital Blau, Helvetica Neue, viel Weißraum, Sektion-Logik), mit echten Schweizer Bildern/Videos und scrollgesteuerten Effekten.</p>
+
+  <a class="card" href="capital1-cinematic-luxury.html" style="margin-top:50px;border-color:var(--blue)">
+    <div class="thumb t3" style="height:240px">
+      <svg viewBox="0 0 300 180" preserveAspectRatio="none"><defs><linearGradient id="m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a2a33"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient></defs><rect width="300" height="180" fill="url(#m)"/><path d="M0 150 L70 90 L120 120 L180 70 L240 110 L300 60 L300 180 L0 180 Z" fill="#0c1418"/><path d="M0 150 L70 90 L120 120 L180 70 L240 110 L300 60" stroke="#83CFEC" stroke-width="1.5" fill="none" opacity="0.5"/></svg>
+      <span class="mini" style="position:relative;color:#83CFEC;font-size:15px">★ Cinematic Luxury — Finale Version</span>
+    </div>
+    <div class="body">
+      <div class="num">Empfohlen</div>
+      <h3>Cinematic Luxury</h3>
+      <p>Fullscreen-Video-Hero (Matterhorn-Timelapse), echte Schweizer Architektur-/Alpenbilder, Sticky-Bild-Swap, zweites Video-Break, Glassmorphism, maßgeschneiderter Cursor und cinematische Reveals. Die ausgearbeitete Hauptversion.</p>
+      <div class="tags"><span>Video-Hero</span><span>Echte Bilder</span><span>Parallax</span><span>Glassmorphism</span></div>
+      <span class="open">Öffnen →</span>
+    </div>
+  </a>
+
+  <div class="eyebrow" style="margin-top:60px">Frühere Konzept-Entwürfe</div>
+  <div class="grid">
+    <a class="card" href="entwurf-1-cinematic.html">
+      <div class="thumb t1">
+        <svg viewBox="0 0 300 180" preserveAspectRatio="none"><g stroke="#83CFEC" stroke-width="1" fill="none" opacity="0.6">
+          <rect x="30" y="90" width="34" height="80"/><rect x="74" y="60" width="40" height="110"/><rect x="124" y="100" width="30" height="70"/><rect x="164" y="40" width="44" height="130"/><rect x="218" y="80" width="36" height="90"/>
+        </g></svg>
+        <span class="mini" style="position:relative;color:#83CFEC">Cinematic Dark</span>
+      </div>
+      <div class="body">
+        <div class="num">Entwurf 01</div>
+        <h3>Cinematic Dark</h3>
+        <p>Schwarzer Vollbild-Hero mit scrollgesteuerter Skyline-Animation, Parallax und hochzählenden Kennzahlen. Maximaler Wow-Effekt, exklusiv & premium.</p>
+        <div class="tags"><span>Canvas-Skyline</span><span>Parallax</span><span>Sticky Steps</span></div>
+        <span class="open">Öffnen →</span>
+      </div>
+    </a>
+
+    <a class="card" href="entwurf-2-editorial.html">
+      <div class="thumb t2">
+        <svg viewBox="0 0 300 180"><g stroke="#1F8FBF" stroke-width="1" opacity="0.35"><line x1="0" y1="45" x2="300" y2="45"/><line x1="0" y1="90" x2="300" y2="90"/><line x1="0" y1="135" x2="300" y2="135"/></g><rect x="40" y="60" width="120" height="14" fill="#0a0a0a"/><rect x="40" y="84" width="80" height="8" fill="#1F8FBF"/></svg>
+        <span class="mini">Swiss Editorial</span>
+      </div>
+      <div class="body">
+        <div class="num">Entwurf 02</div>
+        <h3>Swiss Editorial</h3>
+        <p>Heller Magazin-Look mit sehr viel Weißraum, großen Typo-Momenten und horizontal gepinntem Durchscrollen der Leistungen. Ruhe = Seriosität.</p>
+        <div class="tags"><span>Horizontal Pin</span><span>Marquee</span><span>Weißraum</span></div>
+        <span class="open">Öffnen →</span>
+      </div>
+    </a>
+
+    <a class="card" href="entwurf-3-performance.html">
+      <div class="thumb t3">
+        <svg viewBox="0 0 300 180" preserveAspectRatio="none"><path d="M0 150 L60 130 L120 90 L180 100 L240 50 L300 20" stroke="#83CFEC" stroke-width="2.5" fill="none"/><path d="M0 150 L60 130 L120 90 L180 100 L240 50 L300 20 L300 180 L0 180 Z" fill="#83CFEC" opacity="0.15"/></svg>
+        <span class="mini" style="position:relative;color:#83CFEC">Performance</span>
+      </div>
+      <div class="body">
+        <div class="num">Entwurf 03</div>
+        <h3>Performance / Data</h3>
+        <p>Zahlen- & vertrauensgetrieben: animierter Renditeverlauf, scroll-gesteuerte Balken, sticky Live-Ticker und interaktiver Investitions-Rechner.</p>
+        <div class="tags"><span>Live-Chart</span><span>Rechner</span><span>Sticky Ticker</span></div>
+        <span class="open">Öffnen →</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>Hinweis:</b> Alle Entwürfe sind eigenständige HTML-Dateien (kein Build nötig) und respektieren die CI-Regeln: helles Capital Blau nur als Akzent/Fläche, Links & CTAs in Blau-Dunkel #1F8FBF, Helvetica-Neue-Stack, korrekte Sektion-Logik. Scroll-Animationen sind <b>reduce-motion-sicher</b>. Inhalte stammen aus Broschüre & Factsheet im CI-Leitfaden.
+  </div>
+
+  <footer>CAPITAL1 — Investment &amp; Treuhand AG · Website-Entwürfe · Stand Juni 2026 · V1.0</footer>
+</div>
+</body>
+</html>
